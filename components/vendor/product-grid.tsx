@@ -174,7 +174,9 @@ function ChatBox({ product, onClose }: { product: Product; onClose: () => void }
       setMessages((prev) => [...prev, { id: crypto.randomUUID(), text: msg }]);
     };
     socket.on('chat-message', handleMessage);
-    return () => socket.off('chat-message', handleMessage);
+    return () => {
+      socket.off('chat-message', handleMessage);
+    };
   }, []);
 
   // Scroll to bottom on message
