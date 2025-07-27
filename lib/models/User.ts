@@ -39,9 +39,9 @@ const UserSchema = new mongoose.Schema({
   },
   fssaiCode: {
     type: String,
-    required: function() { return this.role === 'seller'; },
+    required: function(this: IUser) { return this.role === 'seller'; },
     validate: {
-      validator: function(v: string) {
+      validator: function(this: IUser, v: string) {
         return this.role !== 'seller' || (v && v.length === 14);
       },
       message: 'FSSAI Code must be 14 digits for sellers'
