@@ -33,6 +33,7 @@ export default function ChatPage() {
 
     return () => {
       socket.off('chat-message', handleMessage);
+      
     };
   }, []);
 
