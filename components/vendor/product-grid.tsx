@@ -13,7 +13,7 @@ import {
 } from '@/components/ui/select';
 import { MessageCircle, ShoppingCart, Search } from 'lucide-react';
 import Image from 'next/image';
-import { CartContext } from '@/contexts/CartContext'; // ✅ Make sure this path matches your structure
+import { CartContext, useCart } from '@/contexts/CartContext'; // ✅ Make sure this path matches your structure
 
 interface Product {
   id: string;
@@ -37,7 +37,8 @@ export function ProductGrid({ products, category }: ProductGridProps) {
   const [sortBy, setSortBy] = useState('name');
   const [filteredProducts, setFilteredProducts] = useState(products);
 
-  const { addToCart } = useContext(CartContext); // ✅ Access context method
+
+const { addToCart } = useCart();; // ✅ Access context method
 
   const handleSearch = (term: string) => {
     setSearchTerm(term);

@@ -36,6 +36,7 @@ export function SignUpForm() {
         },
         body: JSON.stringify(formData),
       });
+      console.log("API response:", response); 
 
       if (response.ok) {
         router.push('/auth/signin?message=Registration successful');

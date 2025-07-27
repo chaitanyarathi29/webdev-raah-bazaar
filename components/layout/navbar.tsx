@@ -4,14 +4,16 @@ import { Button } from '@/components/ui/button';
 import { LanguageToggle } from '@/components/ui/language-toggle';
 import { useSession, signOut } from 'next-auth/react';
 import Link from 'next/link';
-import { Leaf, LogOut, User } from 'lucide-react';
+import { Leaf, LogOut, User, ShoppingCart } from 'lucide-react';
+import { useCart } from '@/contexts/CartContext';
 
 export function Navbar() {
   const { data: session } = useSession();
+  const { cart } = useCart();
 
   const getDashboardLink = () => {
     if (!session) return '/';
-    
+
     switch (session.user.role) {
       case 'admin':
         return '/admin';
@@ -35,7 +37,17 @@ export function Navbar() {
 
           <div className="flex items-center space-x-4">
             <LanguageToggle />
-            
+
+            {/* Cart Icon */}
+            <Link href="/cart" className="relative">
+              <ShoppingCart className="h-6 w-6 text-gray-700" />
+              {cart.length > 0 && (
+                <span className="absolute -top-2 -right-2 bg-red-500 text-white text-xs font-semibold rounded-full h-5 w-5 flex items-center justify-center">
+                  {cart.length}
+                </span>
+              )}
+            </Link>
+
             {session ? (
               <div className="flex items-center space-x-4">
                 <Link href={getDashboardLink()}>

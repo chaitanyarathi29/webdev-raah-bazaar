@@ -4,8 +4,11 @@ import { ProductGrid } from '@/components/vendor/product-grid';
 import { ArrowLeft } from 'lucide-react';
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
+import dynamic from 'next/dynamic';
 
-// Dummy data for vegetables
+// 🟢 Dynamically import ChatBox to avoid SSR issues
+const ChatBox = dynamic(() => import('@/components/ChatBox'), { ssr: false });
+
 const vegetableProducts = [
   {
     id: '1',
@@ -59,7 +62,7 @@ const vegetableProducts = [
 
 export default function VegetablesPage() {
   return (
-    <div className="min-h-screen bg-gray-50 py-8">
+    <div className="min-h-screen bg-gray-50 py-8 relative">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center mb-6">
           <Link href="/vendor">
@@ -78,6 +81,11 @@ export default function VegetablesPage() {
         </div>
 
         <ProductGrid products={vegetableProducts} category="vegetables" />
+      </div>
+
+      {/* 🟢 Chat box floats in bottom right corner */}
+      <div className="fixed bottom-5 right-5 z-50">
+        <ChatBox />
       </div>
     </div>
   );

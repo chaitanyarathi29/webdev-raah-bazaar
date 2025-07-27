@@ -1,4 +1,5 @@
 'use client';
+
 import { createContext, useContext, useState, ReactNode } from 'react';
 
 type Product = {
@@ -16,7 +17,8 @@ type CartContextType = {
   removeFromCart: (id: string) => void;
 };
 
-const CartContext = createContext<CartContextType | undefined>(undefined);
+// 🔥 FIXED: Exporting CartContext
+export const CartContext = createContext<CartContextType | undefined>(undefined);
 
 export const CartProvider = ({ children }: { children: ReactNode }) => {
   const [cart, setCart] = useState<Product[]>([]);
