@@ -1,11 +1,17 @@
 'use client';
 
 import { useEffect, useState, useRef } from 'react';
-// Import your socket client (update the URL inside your socketClient if needed)
 import socket from '@/utils/socketClient';
-// If you have shadcn UI components installed, import them (optional)
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
+
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu"
+import { MoreVertical } from "lucide-react"
 
 export default function ChatPage() {
   const [input, setInput] = useState('');
@@ -13,12 +19,12 @@ export default function ChatPage() {
   const [showChat, setShowChat] = useState(true);
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
-  // Scroll to bottom whenever messages update
+  // Scroll to bottom when new messages arrive
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
   }, [messages]);
 
-  // Listen to incoming messages
+  // Set up Socket.io listeners
   useEffect(() => {
     const handleMessage = (msg: string) => {
       setMessages((prev) => [...prev, msg]);
@@ -37,6 +43,7 @@ export default function ChatPage() {
     }
   };
 
+  // Render button to open chat if closed
   if (!showChat) {
     return (
       <div className="flex justify-center p-4">
@@ -47,16 +54,35 @@ export default function ChatPage() {
 
   return (
     <div className="max-w-md mx-auto mt-8 border border-gray-300 rounded-lg shadow-lg bg-white flex flex-col h-[500px]">
-      {/* Close button */}
-      <div className="flex justify-end p-2 border-b border-gray-200">
-        <button
-          aria-label="Close chat"
-          onClick={() => setShowChat(false)}
-          className="text-gray-500 hover:text-red-600 text-2xl font-bold leading-none"
-          style={{ lineHeight: 1 }}
-        >
-          &times;
-        </button>
+      {/* Header with dropdown and close button */}
+      <div className="flex justify-between items-center p-2 border-b border-gray-200 rounded-t-lg">
+        <span className="font-semibold text-xl">💬 Chat Box</span>
+        <div className="flex items-center gap-2">
+          {/* Dropdown menu */}
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Button variant="ghost" size="icon" className="rounded-full">
+                <MoreVertical className="w-5 h-5" />
+              </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="end">
+              <DropdownMenuItem onClick={() => setMessages([])}>
+                Clear Chat
+              </DropdownMenuItem>
+              {/* You can add more menu actions here */}
+            </DropdownMenuContent>
+          </DropdownMenu>
+          {/* Close chat box button */}
+          <Button
+            variant="ghost"
+            size="icon"
+            onClick={() => setShowChat(false)}
+            aria-label="Close chat"
+            className="text-gray-500 hover:text-red-600 text-2xl font-bold leading-none"
+          >
+            &times;
+          </Button>
+        </div>
       </div>
 
       {/* Messages container */}
@@ -72,7 +98,6 @@ export default function ChatPage() {
             {msg}
           </div>
         ))}
-
         <div ref={messagesEndRef} />
       </div>
 
@@ -84,7 +109,6 @@ export default function ChatPage() {
         }}
         className="flex p-3 border-t border-gray-200 gap-2"
       >
-        {/* If you don't have shadcn Input, replace with <input /> */}
         <Input
           type="text"
           placeholder="Type a message..."
