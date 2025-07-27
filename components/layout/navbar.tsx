@@ -1,11 +1,12 @@
 'use client';
-
+import TranslateButton from '../ui/TranslateButton';
 import { Button } from '@/components/ui/button';
-import { LanguageToggle } from '@/components/ui/language-toggle';
 import { useSession, signOut } from 'next-auth/react';
 import Link from 'next/link';
 import { Leaf, LogOut, User, ShoppingCart } from 'lucide-react';
 import { useCart } from '@/contexts/CartContext';
+import Image from 'next/image';
+import raahbazarLogo from '@/assets/raahbazar_logo.png';
 
 export function Navbar() {
   const { data: session } = useSession();
@@ -30,13 +31,14 @@ export function Navbar() {
     <nav className="bg-white border-b border-gray-200 sticky top-0 z-50">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-16">
-          <Link href="/" className="flex items-center space-x-2">
-            <Leaf className="h-8 w-8 text-green-600" />
-            <span className="font-bold text-xl text-gray-900">FreshMarket</span>
-          </Link>
+        <Link href="/" className="flex items-center space-x-2">
+       <Image src="/assets/raahbazaar_logo.png" alt="Raah-Bazaar Logo" width={100} height={100} />
+
+          <span className="font-bold text-xl text-green-600">Raah-Bazaar</span>
+        </Link>
 
           <div className="flex items-center space-x-4">
-            <LanguageToggle />
+            <TranslateButton />
 
             {/* Cart Icon */}
             <Link href="/cart" className="relative">

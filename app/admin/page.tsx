@@ -1,5 +1,5 @@
 'use client';
-
+import TranslateButton from '@/components/ui/TranslateButton';
 import { useSession } from 'next-auth/react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
